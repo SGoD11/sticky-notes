@@ -1,59 +1,169 @@
-# `sticky_notes`
 
-Welcome to your new `sticky_notes` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+# Sticky Notes Project
 
-To learn more before you start working with `sticky_notes`, see the following documentation available online:
+A simple **Sticky Notes** application built using **Motoko** for the backend on the **Internet Computer** (ICP) and **React** for the frontend.
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Motoko Programming Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
-- [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
+---
 
-If you want to start working on your project right away, you might want to try the following commands:
+## **Table of Contents**
 
-```bash
-cd sticky_notes/
-dfx help
-dfx canister --help
+- [Project Overview](#project-overview)
+- [Technologies](#technologies)
+- [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
+- [Running Locally](#running-locally)
+- [Deployment](#deployment)
+- [Directory Structure](#directory-structure)
+- [License](#license)
+
+---
+
+## **Project Overview**
+
+This project is a **Sticky Notes** app where users can add, edit, and remove sticky notes. The application is built with:
+
+- **Motoko** backend running on the **Internet Computer**.
+- **React** frontend that communicates with the backend using Dfinity's Canister API.
+
+---
+
+## **Technologies**
+
+- **Motoko**: Programming language for building smart contracts (canisters) on the **Internet Computer**.
+- **React**: Frontend framework to build the user interface.
+- **Dfinity**: Framework for developing on the **Internet Computer** blockchain.
+- **Vite**: Frontend bundler for fast development and optimized builds.
+- **npm**: JavaScript package manager used for managing dependencies.
+
+---
+
+## **Installation**
+
+### **Prerequisites**
+
+To get started, make sure you have the following installed:
+
+- **Node.js** and **npm**:
+
+  ```sh
+  # Install Node.js (includes npm)
+  sudo apt install nodejs npm
+  ```
+
+- **Dfinity SDK (dfx)**:
+  Follow the installation guide here: [https://sdk.dfinity.org/docs/quickstart/local-setup.html](https://sdk.dfinity.org/docs/quickstart/local-setup.html)
+
+- **MongoDB** (for local backend if applicable):
+
+  - Install MongoDB Compass or use `mongod` command to run MongoDB locally.
+
+---
+
+### **Steps to Set Up the Project Locally**
+
+1. **Clone the Repository**:
+
+   ```sh
+   git clone <your-repo-url>
+   cd sticky_notes
+   ```
+
+2. **Install Frontend Dependencies**:
+   Navigate to the frontend folder and install the necessary packages:
+
+   ```sh
+   cd frontend
+   npm install
+   ```
+
+3. **Install Backend Dependencies**:
+   For the Motoko backend, make sure to have `dfx` installed and run:
+
+   ```sh
+   dfx start --background
+   ```
+
+4. **Build React App**:
+   Build the React app to be used as static assets in the deployment:
+
+   ```sh
+   npm run build
+   ```
+
+5. **Deploy Canisters**:
+   Deploy both the frontend and backend canisters to the local Dfinity replica:
+
+   ```sh
+   dfx deploy
+   ```
+
+---
+
+## **Running Locally**
+
+After you’ve set up the project, follow these steps to run both the frontend and backend locally.
+
+1. **Start the Dfinity Replica**:
+   To run the local replica, use:
+
+   ```sh
+   dfx start --background
+   ```
+
+2. **Start the React Frontend**:
+   Inside the **`frontend`** directory, start the React development server:
+
+   ```sh
+   npm run dev
+   ```
+
+   The app will be available at **[http://localhost:5173](http://localhost:5173)**.
+
+3. **Backend Communication**:
+   Your backend canister is running on the local Dfinity replica at `http://127.0.0.1:4943`. The frontend will communicate with it via the Dfinity API.
+
+---
+
+## **Deployment**
+
+To deploy the project on the **Internet Computer**:
+
+1. **Deploy Canisters to the Mainnet**:
+   Replace the local network with the main Dfinity network:
+
+   ```sh
+   dfx deploy --network ic
+   ```
+
+2. **Access the Application**:
+   Once deployed, the frontend will be available via the public URL provided by Dfinity.
+
+---
+
+## **Directory Structure**
+
+```
+sticky_notes/
+├── dfx.json                     # Dfinity configuration
+├── package.json                  # Frontend dependencies and scripts
+├── package-lock.json
+├── tsconfig.json                 # TypeScript configuration for frontend
+├── README.md                     # Project documentation
+├── node_modules/
+├── src/
+│   ├── declarations              # Motoko declarations for canisters
+│   ├── sticky_notes_backend      # Motoko backend code
+│   └── sticky_notes_frontend     # React frontend code
+├── frontend/                     # React app source code (created with Vite)
+└── backend/                      # Motoko backend code
 ```
 
-## Running the project locally
+---
 
-If you want to test your project locally, you can use the following commands:
+## **License**
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+This project is licensed under the CCO-1.0 License - see the [LICENSE](LICENSE) file for details.
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
-
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
-
-If you have made changes to your backend canister, you can generate a new candid interface with
-
-```bash
-npm run generate
-```
-
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
-
-If you are making frontend changes, you can start a development server with
-
-```bash
-npm start
-```
-
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
-
-### Note on frontend environment variables
-
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
-
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+---
