@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "sticky_notes_backend": {
+      "main": "src/sticky_notes_backend/main.mo",
+      "type": "motoko"
+    },
+    "sticky_notes_frontend": {
+      "dependencies": [
+        "sticky_notes_backend"
+      ],
+      "source": [
+        "src/sticky_notes_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "sticky_notes_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
