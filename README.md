@@ -143,24 +143,58 @@ To deploy the project on the **Internet Computer**:
 ---
 
 ## **Directory Structure**
-
+`May be a little bit different 😉`
 ```
-sticky_notes/
-├── dfx.json                     # Dfinity configuration
-├── package.json                  # Frontend dependencies and scripts
+
 ├── package-lock.json
-├── tsconfig.json                 # TypeScript configuration for frontend
-├── README.md                     # Project documentation
-├── node_modules/
-├── src/
-│   ├── declarations              # Motoko declarations for canisters
-│   ├── sticky_notes_backend      # Motoko backend code
-│   └── sticky_notes_frontend     # React frontend code
-├── frontend/                     # React app source code (created with Vite)
-└── backend/                      # Motoko backend code
-```
+├── package.json
+├── README.md
+├── DFX.md
+├── LICENSE
+├── .gitignore
+├── .env
+├── tsconfig.json
+├── dfx.json
+└── src
+    ├── sticky_notes_backend
+    │   └── main.mo
+    ├── sticky_notes_frontend
+    │   ├── src
+    │   │   ├── App.jsx
+    │   │   ├── index.scss
+    │   │   ├── main.jsx
+    │   │   └── vite-env.d.ts
+    │   ├── package.json
+    │   ├── vite.config.js
+    │   ├── dist
+    │   │   ├── .ic-assets.json5
+    │   │   ├── assets
+    │   │   │   ├── index-5792ede1.js
+    │   │   │   ├── index-ca15d46b.css
+    │   │   ├── favicon.ico
+    │   │   ├── logo2.svg
+    │   │   └── index.html
+    │   ├── tsconfig.json
+    │   └── public
+    │       ├── .ic-assets.json5
+    │       ├── favicon.ico
+    │       └── logo2.svg
+    ├── declarations
+       ├── sticky_notes_frontend
+       │   ├── sticky_notes_frontend.did.d.ts
+       │   ├── index.js
+       │   ├── index.d.ts
+       │   ├── sticky_notes_frontend.did.js
+       │   └── sticky_notes_frontend.did
+       └── sticky_notes_backend
+           ├── index.js
+           ├── index.d.ts
+           |── sticky_notes_backend.did
+           └── sticky_notes_backend.did.js
+    
 
----
+
+```
 
 ## **License**
 
