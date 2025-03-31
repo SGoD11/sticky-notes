@@ -1,41 +1,219 @@
+/* General body styles */
 body {
-  font-family: sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-img {
-  max-width: 50vw;
-  max-height: 25vw;
-  display: block;
-  margin: auto;
+/* Light mode styles */
+body.light-mode {
+  background-color: #f4f4f9;
+  color: #333;
 }
 
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #333;
+  color: #f4f4f9;
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Centered content container */
+.container {
+  flex-grow: 1; /* Makes sure content grows to take available space */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  min-height: 70vh;
+}
+
+/* Header styles */
+header {
+  background-color: #6c63ff;
+  padding: 5px 10px  ;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+}
+
+/* Footer styles */
+footer {
+  background-color: #6c63ff;
+  color: white;
+  padding: 10px 0;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  /* Ensures footer stays at the bottom */
+  margin-top: auto;
+}
+
+/* Form styles */
 form {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+  gap: 1rem;
+}
+
+/* Input fields */
+input[type='text'],
+textarea {
+  width: 70%;
+  padding: 10px;
+  font-size: 1rem;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  transition: all 0.3s;
+}
+
+input[type='text']:focus,
+textarea:focus {
+  outline: none;
+  border-color: #6c63ff;
+}
+
+/* Submit button */
+button[type='submit'] {
+  padding: 10px 20px;
+  background-color: #6c63ff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type='submit']:hover {
+  background-color: #5742b7;
+}
+
+/* Toggle button styles */
+.toggle-container {
+  display: flex;
   justify-content: center;
-  gap: 0.5em;
-  flex-flow: row wrap;
-  max-width: 40vw;
-  margin: auto;
-  align-items: baseline;
+  margin: 20px 0;
 }
 
-button[type="submit"] {
-  padding: 5px 20px;
-  margin: 10px auto;
-  float: right;
+.toggle-container label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
 }
 
-#greeting {
-  margin: 10px auto;
-  padding: 10px 60px;
-  border: 1px solid #222;
+.toggle-container input[type="checkbox"] {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  appearance: none;
+  background-color: #ddd;
+  border-radius: 25px;
+  transition: background-color 0.3s;
+  cursor: pointer;
 }
 
-#greeting:empty {
-  display: none;
+.toggle-container input[type="checkbox"]:checked {
+  background-color: #6c63ff;
 }
 
+.toggle-container input[type="checkbox"]:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.3s;
+}
+
+.toggle-container input[type="checkbox"]:checked:before {
+  transform: translate(25px, -50%);
+}
+
+/* Notes container */
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Individual note styles */
+.note {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.note:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.note h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #6c63ff;
+}
+
+.note p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Empty state styles */
+.no-notes {
+  font-size: 1.5rem;
+  color: #aaa;
+  text-align: center;
+}
+
+/* Browser warning */
 .browser-warning {
   display: none;
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+  .notes-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .note {
+    width: 90%;
+  }
 }
