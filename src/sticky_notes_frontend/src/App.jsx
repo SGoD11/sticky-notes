@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { sticky_notes_backend } from 'declarations/sticky_notes_backend';
+import { useEffect, useState } from 'react';
+import { sticky_notes_backend as backend } from 'declarations/sticky_notes_backend';
+
 function App() {
   // State to hold the notes
   const [notes, setNotes] = useState([]);
@@ -8,6 +9,19 @@ function App() {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  useEffect(() => {
+    const fetchGreeting = async () => {
+      try {
+        const alertMsg = await backend.greeting();
+        console.log(alertMsg);
+        alert(alertMsg);
+      } catch (error) {
+        console.error("Error fetching greeting:", error);
+      }
+    };
+
+    fetchGreeting();
+  }, []);
 
     // Toggle dark/light mode
     const handleToggleMode = () => {
