@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { sticky_notes_backend as backend } from 'declarations/sticky_notes_backend';
 
 function App() {
-  // State to hold the notes
+  // State to hold the notes (initially an empty array)
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const [errorMessage, setErrorMessage] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Fetch greeting from backend when component mounts
   useEffect(() => {
     const fetchGreeting = async () => {
       try {
@@ -19,32 +20,53 @@ function App() {
         console.error("Error fetching greeting:", error);
       }
     };
-
     fetchGreeting();
   }, []);
 
-    // Toggle dark/light mode
-    const handleToggleMode = () => {
-      setIsDarkMode(prev => !prev);
-      document.body.classList.toggle('dark-mode', !isDarkMode);
-      document.body.classList.toggle('light-mode', isDarkMode);
+  // Toggle dark/light mode
+  const handleToggleMode = () => {
+    setIsDarkMode(prev => !prev);
+    document.body.classList.toggle('dark-mode', !isDarkMode);
+    document.body.classList.toggle('light-mode', isDarkMode);
+  };
+
+
+  // for fetching previous data
+  useEffect(()=>{
+    const fetch = async()=>{
+      const fetchedNotes = await backend.getNotes();
+      setNotes(fetchedNotes);
     };
+    fetch();
+  },[]);
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if title and description are at least 5 characters long
     if (title.length < 5 || description.length < 5) {
       setErrorMessage('Both title and description must be at least 5 characters long');
-      return; // Don't submit if validation fails
+      return;
     }
 
-    // Adding a new note to the list
-    setNotes((prevNotes) => [
-      ...prevNotes,
-      { title: title, description: description },
-    ]);
+    // Create the new note and compute the updated notes array
+    const newNote = { title, description };
+    const updatedNotes = [...notes, newNote];
+
+    // Immediately update the state
+    setNotes(updatedNotes);
+
+    // Log the updated notes (this now reflects the new state)
+    console.log("Updated notes:", updatedNotes);
+
+    // Send the updated notes to the backend
+    try {
+      const notesString = JSON.stringify(updatedNotes);
+      await backend.addNote(newNote);
+    } catch (error) {
+      console.error("Error sending notes to backend:", error);
+    }
 
     // Reset the form fields and error message
     setTitle('');
@@ -57,17 +79,17 @@ function App() {
       <header>
         <h1>Sticky Notes</h1>
         <span className="toggle-container">
-        <label>
-          Dark Mode
-          <input
-            type="checkbox"
-            checked={isDarkMode}
-            onChange={handleToggleMode}
-          />
-        </label>
-      </span>
+          <label>
+            Dark Mode
+            <input
+              type="checkbox"
+              checked={isDarkMode}
+              onChange={handleToggleMode}
+            />
+          </label>
+        </span>
       </header>
-      
+
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div>
