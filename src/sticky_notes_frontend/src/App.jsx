@@ -8,20 +8,8 @@ function App() {
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Fetch greeting from backend when component mounts
-  useEffect(() => {
-    const fetchGreeting = async () => {
-      try {
-        const alertMsg = await backend.greeting();
-        console.log(alertMsg);
-        alert(alertMsg);
-      } catch (error) {
-        console.error("Error fetching greeting:", error);
-      }
-    };
-    fetchGreeting();
-  }, []);
+  const [save, setSave] = useState(false);
+  
 
   // Toggle dark/light mode
   const handleToggleMode = () => {
@@ -36,6 +24,7 @@ function App() {
     const fetch = async()=>{
       const fetchedNotes = await backend.getNotes();
       setNotes(fetchedNotes);
+      
     };
     fetch();
   },[]);
@@ -62,8 +51,10 @@ function App() {
 
     // Send the updated notes to the backend
     try {
-      const notesString = JSON.stringify(updatedNotes);
-      await backend.addNote(newNote);
+      setSave(!save);
+      const result = await backend.addNote(newNote);
+      console.log("this is result", result);
+      result && setSave(false);
     } catch (error) {
       console.error("Error sending notes to backend:", error);
     }
@@ -112,7 +103,7 @@ function App() {
 
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-          <button type="submit">Add Note</button>
+          <button type="submit"  disabled={save}>Add Note</button>
         </form>
 
         {/* Render notes */}
