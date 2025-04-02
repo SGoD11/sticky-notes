@@ -1,5 +1,5 @@
 import Debug "mo:base/Debug";
-import Array "mo:base/Array";
+// import Array "mo:base/Array";
 import Nat "mo:base/Nat";
 import List "mo:base/List";
 actor simple {
@@ -25,8 +25,8 @@ actor simple {
   };
 
   // Function to retrieve all stored notes
-  // public query func getNotes() : async [Note] {
-  //   return notes;
-  // };
+  public query func getNotes() : async [Note] {
+     return List.toArray(notes);
+  };
 
 };

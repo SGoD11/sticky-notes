@@ -52,7 +52,7 @@ function App() {
     // Send the updated notes to the backend
     try {
       setSave(!save);
-      const result = await backend.addNote(newNote.title, newNote.descriptiona);
+      const result = await backend.addNote(newNote.title, newNote.description);
       console.log("this is result", result);
       result && setSave(false);
     } catch (error) {
