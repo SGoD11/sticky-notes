@@ -41,7 +41,7 @@ function App() {
 
     // Create the new note and compute the updated notes array
     const newNote = { title, description };
-    const updatedNotes = [...notes, newNote];
+    const updatedNotes = [newNote, ...notes ];
 
     // Immediately update the state
     setNotes(updatedNotes);
@@ -51,7 +51,7 @@ function App() {
 
     // Send the updated notes to the backend
     try {
-      setSave(!save);
+      setSave(true);
       const result = await backend.addNote(newNote.title, newNote.description);
       console.log("this is result", result);
       result && setSave(false);
@@ -63,6 +63,24 @@ function App() {
     setTitle('');
     setDescription('');
     setErrorMessage('');
+    setSave(false);
+  };
+
+  // Function to delete Notes
+   function deleteNotes(id){
+    setNotes(pre => {
+      return pre.filter((noteItem, index)=>{
+        return index !==id;
+      });
+    });
+
+    // backend delete
+     try {
+      backend.removeNote(id);
+      console.log("deleted ");
+     } catch (error) {
+      console.log("error in deleting ", error);
+     }
   };
 
   return (
@@ -103,7 +121,7 @@ function App() {
 
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-          <button type="submit">Add Note</button>
+          <button type="submit" disabled={save}>Add Note</button>
         </form>
 
         {/* Render notes */}
@@ -113,6 +131,7 @@ function App() {
               <div key={index} className="note">
                 <h3>{note.title}</h3>
                 <p>{note.description}</p>
+                <button onClick={() => deleteNotes(index)}>Delete</button>
               </div>
             ))
           ) : (

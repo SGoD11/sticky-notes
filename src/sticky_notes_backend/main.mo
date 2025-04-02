@@ -20,7 +20,7 @@ actor simple {
       description = description;
     };
     notes := List.push(newNote, notes); // in list push (newNote, "Which List ?")
-    Debug.print(debug_show (notes));
+    // Debug.print(debug_show (notes)); working correctly
     return 1;
   };
 
@@ -28,5 +28,14 @@ actor simple {
   public query func getNotes() : async [Note] {
      return List.toArray(notes);
   };
+
+  // Function to remove note
+  public func removeNote(id: Nat){
+    let listFront  = List.take(notes, id) ;
+    let listDrop =  List.drop(notes, id+1);
+    notes := List.append(listFront,listDrop);
+    Debug.print("This is deleted from deleted");
+  };
+
 
 };
