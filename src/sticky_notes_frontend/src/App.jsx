@@ -52,7 +52,7 @@ function App() {
     // Send the updated notes to the backend
     try {
       setSave(!save);
-      const result = await backend.addNote(newNote);
+      const result = await backend.addNote(newNote.title, newNote.descriptiona);
       console.log("this is result", result);
       result && setSave(false);
     } catch (error) {
@@ -103,7 +103,7 @@ function App() {
 
           {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-          <button type="submit"  disabled={save}>Add Note</button>
+          <button type="submit">Add Note</button>
         </form>
 
         {/* Render notes */}
